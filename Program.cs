@@ -92,6 +92,11 @@ namespace WnfMonitor
                             try
                             {
                                 var stateName = Convert.ToUInt64(nameBuilder.ToString(), 16);
+                                // bool bDaclPresent = false;
+                                // bool bDaclDefaulted = false;
+                                // int sdLength = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
+                                // IntPtr pDacl = IntPtr.Zero;
+                                NativeMethods.SetSecurityDescriptorDacl(pInfoBuffer, true, IntPtr.Zero, false);
                                 WnfStateNames[i].Add(stateName);
                             }
                             catch { }
