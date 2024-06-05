@@ -1,0 +1,7 @@
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\bin\Debug\WnfMonitor.exe.config
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\bin\Debug\WnfMonitor.exe
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\bin\Debug\WnfMonitor.pdb
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\Debug\WnfMonitor.csproj.AssemblyReference.cache
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\Debug\WnfMonitor.csproj.CoreCompileInputs.cache
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\Debug\WnfMonitor.exe
+C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\Debug\WnfMonitor.pdb
