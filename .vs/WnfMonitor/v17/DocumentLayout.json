@@ -15,20 +15,20 @@
       "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32consts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +42,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "HexDump.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\HexDump.cs",
               "RelativeDocumentMoniker": "Library\\HexDump.cs",
@@ -60,13 +60,14 @@
               "RelativeDocumentMoniker": "Library\\Globals.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\Globals.cs",
               "RelativeToolTip": "Library\\Globals.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAIAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:45:25.403Z"
+              "WhenOpened": "2024-06-05T02:45:25.403Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Win32Structs.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Structs.cs",
               "RelativeDocumentMoniker": "Interop\\Win32Structs.cs",
@@ -78,15 +79,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "Win32Enums.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Enums.cs",
               "RelativeDocumentMoniker": "Interop\\Win32Enums.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Enums.cs",
               "RelativeToolTip": "Interop\\Win32Enums.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAUAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:42:58.745Z"
+              "WhenOpened": "2024-06-05T02:42:58.745Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -96,7 +98,7 @@
               "RelativeDocumentMoniker": "Interop\\Win32Consts.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Consts.cs",
               "RelativeToolTip": "Interop\\Win32Consts.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAbAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T02:42:35.196Z",
               "EditorCaption": ""
@@ -109,7 +111,7 @@
               "RelativeDocumentMoniker": "Interop\\NativeMethods.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\NativeMethods.cs",
               "RelativeToolTip": "Interop\\NativeMethods.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAwwCYAAAA8AAAA",
+              "ViewState": "AQIAAJ0AAAAAAAAAAAAnwLMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T02:41:36.238Z",
               "EditorCaption": ""
@@ -122,7 +124,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAowF4AAAAjAAAA",
+              "ViewState": "AQIAAHwAAAAAAAAAAAAqwI0AAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T02:32:22.452Z",
               "EditorCaption": ""

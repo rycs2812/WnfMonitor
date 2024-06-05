@@ -18,5 +18,8 @@ namespace WnfMonitor.Interop
         public const NTSTATUS STATUS_SUCCESS = 0;
         public static readonly NTSTATUS STATUS_OPERATION_FAILED = Convert.ToInt32("0xC0000001", 16);
         public static readonly NTSTATUS STATUS_BUFFER_TOO_SMALL = Convert.ToInt32("0xC0000023", 16);
+
+        public const int KEY_SET_VALUE = 0x0002;
+        public const int REG_BINARY = 3;
     }
 }

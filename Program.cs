@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -92,11 +93,46 @@ namespace WnfMonitor
                             try
                             {
                                 var stateName = Convert.ToUInt64(nameBuilder.ToString(), 16);
-                                // bool bDaclPresent = false;
-                                // bool bDaclDefaulted = false;
-                                // int sdLength = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
-                                // IntPtr pDacl = IntPtr.Zero;
-                                NativeMethods.SetSecurityDescriptorDacl(pInfoBuffer, true, IntPtr.Zero, false);
+                                IntPtr pAbsoluteSd = Marshal.AllocHGlobal(1024);
+                                IntPtr pDacl = Marshal.AllocHGlobal(1024);
+                                IntPtr pSacl = Marshal.AllocHGlobal(1024);
+                                IntPtr pOwner = Marshal.AllocHGlobal(1024);
+                                IntPtr pPrimaryGroup = Marshal.AllocHGlobal(1024);
+                                uint lpdwAbsoluteSdSize = 1024, DaclSize = 1024, SaclSize = 1024, OwnerSize = 1024, PrimaryGroupSize = 1024;
+
+                                bool status = NativeMethods.MakeAbsoluteSD(
+                                            pInfoBuffer, 
+                                            pAbsoluteSd, 
+                                            ref lpdwAbsoluteSdSize,
+                                            pDacl,
+                                            ref DaclSize,
+                                            pSacl,
+                                            ref SaclSize,
+                                            pOwner,
+                                            ref OwnerSize,
+                                            pPrimaryGroup,
+                                            ref PrimaryGroupSize);
+
+                                status = NativeMethods.SetSecurityDescriptorDacl(pAbsoluteSd, true, IntPtr.Zero, false);
+
+                                IntPtr modifiedSd = Marshal.AllocHGlobal(1024);
+                                uint tempBufferSize = 1024;
+                                int modifiedSdSize = -1;
+                                status = NativeMethods.MakeSelfRelativeSD(pAbsoluteSd, modifiedSd, ref tempBufferSize);
+                                if (NativeMethods.IsValidSecurityDescriptor(modifiedSd))
+                                {
+                                    modifiedSdSize = NativeMethods.GetSecurityDescriptorLength(modifiedSd);
+                                }
+
+                                if (!status)
+                                {
+                                    int errorCode = Marshal.GetLastWin32Error();
+                                    Console.WriteLine("Could not modify security descriptor\nError code: " + errorCode);
+                                } else
+                                {
+                                    ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize);
+                                }
+
                                 WnfStateNames[i].Add(stateName);
                             }
                             catch { }
@@ -179,6 +215,60 @@ namespace WnfMonitor
             }
 
             return wnfName;
+        }
+
+        private static bool sdControlTest(IntPtr pInfoBuffer)
+        {
+            // Running control test:
+            if (NativeMethods.IsValidSecurityDescriptor(pInfoBuffer))
+            {
+                return false;
+            }
+
+            int initialSdSize = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
+            IntPtr pControlAbsoluteSd = Marshal.AllocHGlobal(1024);
+            IntPtr p1 = Marshal.AllocHGlobal(1024);
+            IntPtr p2 = Marshal.AllocHGlobal(1024);
+            IntPtr p3 = Marshal.AllocHGlobal(1024);
+            IntPtr p4 = Marshal.AllocHGlobal(1024);
+            uint controlAbsoluteSdSize = 1024, s1 = 1024, s2 = 1024, s3 = 1024, s4 = 1024;
+
+            bool ntstatus = NativeMethods.MakeAbsoluteSD(
+                        pInfoBuffer,
+                        pControlAbsoluteSd,
+                        ref controlAbsoluteSdSize,
+                        p1,
+                        ref s1,
+                        p2,
+                        ref s2,
+                        p3,
+                        ref s3,
+                        p4,
+                        ref s4);
+
+            IntPtr controlSd = Marshal.AllocHGlobal(1024);
+            uint bufferControlSize = 1024;
+            ntstatus = NativeMethods.MakeSelfRelativeSD(pControlAbsoluteSd, controlSd, ref bufferControlSize);
+            return NativeMethods.IsValidSecurityDescriptor(controlSd) && NativeMethods.GetSecurityDescriptorLength(controlSd) == initialSdSize;
+        }
+
+        private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, IntPtr pSecurityDescriptor, int sdLength)
+        {
+            IntPtr phkResult;
+            int status = NativeMethods.RegOpenKeyEx(
+                                    Win32Consts.HKEY_LOCAL_MACHINE,
+                                    "SYSTEM\\CurrentControlSet\\Control\\Notifications",
+                                    0,
+                                    Win32Consts.KEY_SET_VALUE,
+                                    out phkResult);
+
+            int oldSdLength = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
+            IntPtr newInfoBuffer = Marshal.AllocHGlobal(sdLength + nInfoLength - oldSdLength);
+            NativeMethods.CopyMemory(newInfoBuffer, pSecurityDescriptor, (uint) sdLength);
+            NativeMethods.CopyMemory(IntPtr.Add(newInfoBuffer, sdLength), IntPtr.Add(pInfoBuffer, oldSdLength), (uint) (nInfoLength - oldSdLength));
+                 
+            status = NativeMethods.RegSetValueEx(phkResult, stateName, 0, Win32Consts.REG_BINARY, newInfoBuffer, sdLength + nInfoLength - oldSdLength);
+            return status == Win32Consts.STATUS_SUCCESS;
         }
 
     }

@@ -73,6 +73,60 @@ namespace WnfMonitor.Interop
             IntPtr lpData,
             ref int lpcbData);
 
+        [DllImport("advapi32.dll", CharSet = CharSet.Auto)]
+        public static extern int RegSetValueEx(
+            IntPtr hKey,
+            string lpSubKey,
+            int Reserved,
+            int dwType,
+            IntPtr lpData,
+            int cbData);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern uint GetNamedSecurityInfo(
+            string pObjectName,
+            SE_OBJECT_TYPE ObjectType,
+            SECURITY_INFORMATION SecurityInfo,
+            out IntPtr pSidOwner,
+            out IntPtr pSidGroup,
+            out IntPtr pDacl,
+            out IntPtr pSacl,
+            out IntPtr pSecurityDescriptor
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern uint SetNamedSecurityInfo(
+            string pObjectName,
+            SE_OBJECT_TYPE ObjectType,
+            SECURITY_INFORMATION SecurityInfo,
+            IntPtr psidOwner,
+            IntPtr psidGroup,
+            IntPtr pDacl,
+            IntPtr pSacl
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool MakeAbsoluteSD(
+            IntPtr pSelfRelativeSecurityDescriptor,
+            IntPtr pAbsoluteSecurityDescriptor,
+            ref uint lpdwAbsoluteSecurityDescriptorSize,
+            IntPtr pDacl,
+            ref uint lpdwDaclSize,
+            IntPtr pSacl,
+            ref uint lpdwSaclSize,
+            IntPtr pOwner,
+            ref uint lpdwOwnerSize,
+            IntPtr pPrimaryGroup,
+            ref uint lpdwPrimaryGroupSize
+        );
+
+        [DllImport("Advapi32.dll", SetLastError = true)]
+        public static extern bool MakeSelfRelativeSD(
+            IntPtr pAbsoluteSecurityDescriptor,
+            IntPtr pSelfRelativeSecurityDescriptor,
+            ref uint lpdwBufferLength
+        );
+
         /*
          * ntdll.dll
          * 
@@ -122,5 +176,9 @@ namespace WnfMonitor.Interop
         [DllImport("ntdll.dll")]
         public static extern NTSTATUS RtlUnsubscribeWnfStateChangeNotification(
             IntPtr Subscription);
+
+
+        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
+        public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
     }
 }
