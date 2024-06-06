@@ -116,26 +116,37 @@ namespace WnfMonitor
                                             pPrimaryGroup,
                                             ref PrimaryGroupSize);
 
-                                status = NativeMethods.SetSecurityDescriptorDacl(pAbsoluteSd, true, IntPtr.Zero, false);
-
-                                IntPtr modifiedSd = Marshal.AllocHGlobal(1024);
-                                uint tempBufferSize = 1024;
-                                int modifiedSdSize = -1;
-                                status = NativeMethods.MakeSelfRelativeSD(pAbsoluteSd, modifiedSd, ref tempBufferSize);
-                                if (NativeMethods.IsValidSecurityDescriptor(modifiedSd))
+                                if (status)
                                 {
-                                    modifiedSdSize = NativeMethods.GetSecurityDescriptorLength(modifiedSd);
+                                    status = NativeMethods.SetSecurityDescriptorDacl(pAbsoluteSd, true, IntPtr.Zero, false);
+
+                                    IntPtr modifiedSd = Marshal.AllocHGlobal(1024);
+                                    uint tempBufferSize = 1024;
+                                    int modifiedSdSize = -1;
+                                    status = NativeMethods.MakeSelfRelativeSD(pAbsoluteSd, modifiedSd, ref tempBufferSize);
+                                    if (NativeMethods.IsValidSecurityDescriptor(modifiedSd))
+                                    {
+                                        modifiedSdSize = NativeMethods.GetSecurityDescriptorLength(modifiedSd);
+                                    }
+
+                                    if (!status)
+                                    {
+                                        int errorCode = Marshal.GetLastWin32Error();
+                                        Console.WriteLine("Could not modify security descriptor for {0}\nError code: " + errorCode, wnfName);
+                                    }
+                                    else
+                                    {
+                                        ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize, Globals.LifetimeKeyNames[i]);
+                                    }
+
+                                    Marshal.FreeHGlobal(modifiedSd);
                                 }
 
-                                if (!status)
-                                {
-                                    int errorCode = Marshal.GetLastWin32Error();
-                                    Console.WriteLine("Could not modify security descriptor for {0}\nError code: " + errorCode, wnfName);
-                                } else
-                                {
-                                   ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize, Globals.LifetimeKeyNames[i]);
-                                }
-
+                                Marshal.FreeHGlobal(pAbsoluteSd);
+                                Marshal.FreeHGlobal(pDacl);
+                                Marshal.FreeHGlobal(pSacl);
+                                Marshal.FreeHGlobal(pOwner);
+                                Marshal.FreeHGlobal(pPrimaryGroup);
                                 WnfStateNames[i].Add(stateName);
                             }
                             catch { }
@@ -270,8 +281,10 @@ namespace WnfMonitor
             IntPtr newInfoBuffer = Marshal.AllocHGlobal(sdLength + nInfoLength - oldSdLength);
             NativeMethods.CopyMemory(newInfoBuffer, pSecurityDescriptor, (uint) sdLength);
             NativeMethods.CopyMemory(IntPtr.Add(newInfoBuffer, sdLength), IntPtr.Add(pInfoBuffer, oldSdLength), (uint) (nInfoLength - oldSdLength));
-                 
             status = NativeMethods.RegSetValueEx(phkResult, stateName, 0, Win32Consts.REG_BINARY, newInfoBuffer, sdLength + nInfoLength - oldSdLength);
+
+            NativeMethods.RegCloseKey(phkResult);
+            Marshal.FreeHGlobal(newInfoBuffer);
             return status == Win32Consts.STATUS_SUCCESS;
         }
 
