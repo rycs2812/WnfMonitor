@@ -5,3 +5,10 @@ C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\x64\Debug\WnfMonitor.cspro
 C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.CoreCompileInputs.cache
 C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\x64\Debug\WnfMonitor.exe
 C:\Users\Yong Chang Sheng\source\repos\WnfMonitor\obj\x64\Debug\WnfMonitor.pdb
+C:\Users\User\Desktop\WnfMonitor\bin\x64\Debug\WnfMonitor.exe.config
+C:\Users\User\Desktop\WnfMonitor\bin\x64\Debug\WnfMonitor.exe
+C:\Users\User\Desktop\WnfMonitor\bin\x64\Debug\WnfMonitor.pdb
+C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.exe
+C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.pdb

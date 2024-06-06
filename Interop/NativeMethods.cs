@@ -120,7 +120,7 @@ namespace WnfMonitor.Interop
             ref uint lpdwPrimaryGroupSize
         );
 
-        [DllImport("Advapi32.dll", SetLastError = true)]
+        [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool MakeSelfRelativeSD(
             IntPtr pAbsoluteSecurityDescriptor,
             IntPtr pSelfRelativeSecurityDescriptor,

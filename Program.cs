@@ -1,12 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using WnfMonitor.Interop;
 using WnfMonitor.Library;
 
@@ -41,6 +36,7 @@ namespace WnfMonitor
             IntPtr Buffer,
             int BufferSize);
 
+        private static IntPtr Callback;
         public static string[] LifetimeKeyNames = new string[]
         {
             "SYSTEM\\CurrentControlSet\\Control\\Notifications",
@@ -51,8 +47,14 @@ namespace WnfMonitor
         public static List<ulong>[] WnfStateNames = new List<ulong>[3];
         static void Main(string[] args)
         {
+            Callback = Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback));
             GetAllStateNames();
             SubscribeToAllStateNames();
+            Console.WriteLine("\n\n\nBeginning WNF Capture...\n\n\n");
+            while(true)
+            {
+
+            }
         }
 
         private static void GetAllStateNames()
@@ -93,6 +95,7 @@ namespace WnfMonitor
                             try
                             {
                                 var stateName = Convert.ToUInt64(nameBuilder.ToString(), 16);
+                                var wnfName = GetWnfName(stateName);
                                 IntPtr pAbsoluteSd = Marshal.AllocHGlobal(1024);
                                 IntPtr pDacl = Marshal.AllocHGlobal(1024);
                                 IntPtr pSacl = Marshal.AllocHGlobal(1024);
@@ -127,10 +130,10 @@ namespace WnfMonitor
                                 if (!status)
                                 {
                                     int errorCode = Marshal.GetLastWin32Error();
-                                    Console.WriteLine("Could not modify security descriptor\nError code: " + errorCode);
+                                    Console.WriteLine("Could not modify security descriptor for {0}\nError code: " + errorCode, wnfName);
                                 } else
                                 {
-                                    ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize);
+                                   ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize, Globals.LifetimeKeyNames[i]);
                                 }
 
                                 WnfStateNames[i].Add(stateName);
@@ -164,7 +167,7 @@ namespace WnfMonitor
                         out pSubscription,
                         stateName,
                         0,
-                        Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback)),
+                        Callback,
                         pContextBuffer,
                         IntPtr.Zero,
                         0,
@@ -189,7 +192,8 @@ namespace WnfMonitor
             IntPtr pBuffer,
             int nBufferSize)
         {
-            Console.WriteLine("Callback function called by {0}.", GetWnfName(stateName));
+            Console.WriteLine("[+] Callback function called by {0}.", GetWnfName(stateName));
+            Console.WriteLine(HexDump.Dump(pBuffer, (uint)nBufferSize, 2));
             return 1;
         }
 
@@ -252,12 +256,12 @@ namespace WnfMonitor
             return NativeMethods.IsValidSecurityDescriptor(controlSd) && NativeMethods.GetSecurityDescriptorLength(controlSd) == initialSdSize;
         }
 
-        private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, IntPtr pSecurityDescriptor, int sdLength)
+        private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, IntPtr pSecurityDescriptor, int sdLength, string registryPath)
         {
             IntPtr phkResult;
             int status = NativeMethods.RegOpenKeyEx(
                                     Win32Consts.HKEY_LOCAL_MACHINE,
-                                    "SYSTEM\\CurrentControlSet\\Control\\Notifications",
+                                    registryPath,
                                     0,
                                     Win32Consts.KEY_SET_VALUE,
                                     out phkResult);
