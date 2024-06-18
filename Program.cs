@@ -37,6 +37,7 @@ namespace WnfMonitor
             int BufferSize);
 
         private static IntPtr Callback;
+        private static Boolean startedCapture;
         public static string[] LifetimeKeyNames = new string[]
         {
             "SYSTEM\\CurrentControlSet\\Control\\Notifications",
@@ -47,10 +48,12 @@ namespace WnfMonitor
         public static List<ulong>[] WnfStateNames = new List<ulong>[3];
         static void Main(string[] args)
         {
+            startedCapture = false;
             Callback = Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback));
             GetAllStateNames();
             SubscribeToAllStateNames();
             Console.WriteLine("\n\n\nBeginning WNF Capture...\n\n\n");
+            startedCapture = true;
             while(true)
             {
 
@@ -136,7 +139,7 @@ namespace WnfMonitor
                                     }
                                     else
                                     {
-                                        ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize, Globals.LifetimeKeyNames[i]);
+                                        // ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize, Globals.LifetimeKeyNames[i]);
                                     }
 
                                     Marshal.FreeHGlobal(modifiedSd);
@@ -203,6 +206,10 @@ namespace WnfMonitor
             IntPtr pBuffer,
             int nBufferSize)
         {
+            if (!startedCapture)
+            {
+                return 0;
+            }
             Console.WriteLine("[+] Callback function called by {0}.", GetWnfName(stateName));
             Console.WriteLine(HexDump.Dump(pBuffer, (uint)nBufferSize, 2));
             return 1;
