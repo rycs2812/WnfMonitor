@@ -69,6 +69,7 @@
     <Compile Include="Interop\Win32Structs.cs" />
     <Compile Include="Library\Globals.cs" />
     <Compile Include="Library\HexDump.cs" />
+    <Compile Include="Library\CommandLineParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

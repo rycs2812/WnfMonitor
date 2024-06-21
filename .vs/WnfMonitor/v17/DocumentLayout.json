@@ -7,8 +7,27 @@
       "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|WnfMonitor||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|c:\\users\\yong chang sheng\\source\\repos\\wnfmonitor\\library\\commandlineparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\commandlineparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\nativemethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\nativemethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32consts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,16 +38,7 @@
       "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\globals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:library\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|solutionrelative:interop\\win32structs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2FBCC544-EB68-4D82-8371-8B490072DC38}|WnfMonitor.csproj|c:\\users\\yong chang sheng\\source\\repos\\wnfmonitor\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|5e9a8ac2-4f34-4521-858f-4c248ba31532"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,23 +48,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
+              "Title": "WnfMonitor",
+              "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\WnfMonitor.csproj",
+              "RelativeDocumentMoniker": "WnfMonitor.csproj",
+              "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\WnfMonitor.csproj*",
+              "RelativeToolTip": "WnfMonitor.csproj*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-21T08:10:08.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CommandLineParser.cs",
+              "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\CommandLineParser.cs",
+              "RelativeDocumentMoniker": "Library\\CommandLineParser.cs",
+              "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\CommandLineParser.cs",
+              "RelativeToolTip": "Library\\CommandLineParser.cs",
+              "ViewState": "AQIAAIwAAAAAAAAAAAAWwKIAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-21T07:36:27.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "HexDump.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\HexDump.cs",
               "RelativeDocumentMoniker": "Library\\HexDump.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\HexDump.cs",
               "RelativeToolTip": "Library\\HexDump.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAUAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAowAgAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:46:04.487Z"
+              "WhenOpened": "2024-06-05T02:46:04.487Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Globals.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Library\\Globals.cs",
               "RelativeDocumentMoniker": "Library\\Globals.cs",
@@ -75,11 +111,12 @@
               "RelativeToolTip": "Interop\\Win32Structs.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:44:10.772Z"
+              "WhenOpened": "2024-06-05T02:44:10.772Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Win32Enums.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Enums.cs",
               "RelativeDocumentMoniker": "Interop\\Win32Enums.cs",
@@ -87,12 +124,11 @@
               "RelativeToolTip": "Interop\\Win32Enums.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:42:58.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-05T02:42:58.745Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "Win32Consts.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\Win32Consts.cs",
               "RelativeDocumentMoniker": "Interop\\Win32Consts.cs",
@@ -100,12 +136,11 @@
               "RelativeToolTip": "Interop\\Win32Consts.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:42:35.196Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-05T02:42:35.196Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "NativeMethods.cs",
               "DocumentMoniker": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Interop\\NativeMethods.cs",
               "RelativeDocumentMoniker": "Interop\\NativeMethods.cs",
@@ -124,7 +159,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Yong Chang Sheng\\source\\repos\\WnfMonitor\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAHwAAAAAAAAAAAAqwI0AAAAVAAAA",
+              "ViewState": "AQIAACYBAAAAAAAAAAAUwCwBAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T02:32:22.452Z",
               "EditorCaption": ""

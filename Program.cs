@@ -1,12 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using WnfMonitor.Interop;
 using WnfMonitor.Library;
 
@@ -41,6 +36,7 @@ namespace WnfMonitor
             IntPtr Buffer,
             int BufferSize);
 
+        private static IntPtr Callback;
         public static string[] LifetimeKeyNames = new string[]
         {
             "SYSTEM\\CurrentControlSet\\Control\\Notifications",
@@ -51,11 +47,41 @@ namespace WnfMonitor
         public static List<ulong>[] WnfStateNames = new List<ulong>[3];
         static void Main(string[] args)
         {
-            GetAllStateNames();
-            SubscribeToAllStateNames();
+            var options = new CommandLineParser();
+            try
+            {
+                options.SetTitle("WnfMonitor - Tool for monitoring Windows Notification Facility state updates");
+                options.AddFlag(false, "h", "help", "Displays this help message.");
+                options.AddFlag(false, "s", "sn", "Nullifies DACL for WNF StateName security descriptors");
+                options.Parse(args);
+
+                if (options.GetFlag("help"))
+                {
+                    options.GetHelp();
+                    return;
+                }
+
+                Callback = Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback));
+                GetAllStateNames(options);
+                SubscribeToAllStateNames();
+                Console.WriteLine("\n\n\nBeginning WNF Capture...\n\n\n");
+                while (true)
+                {
+
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                options.GetHelp();
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        private static void GetAllStateNames()
+        private static void GetAllStateNames(CommandLineParser options)
         {
             for (int i = 0; i < LifetimeKeyNames.Length; ++i)
             {
@@ -93,48 +119,16 @@ namespace WnfMonitor
                             try
                             {
                                 var stateName = Convert.ToUInt64(nameBuilder.ToString(), 16);
-                                IntPtr pAbsoluteSd = Marshal.AllocHGlobal(1024);
-                                IntPtr pDacl = Marshal.AllocHGlobal(1024);
-                                IntPtr pSacl = Marshal.AllocHGlobal(1024);
-                                IntPtr pOwner = Marshal.AllocHGlobal(1024);
-                                IntPtr pPrimaryGroup = Marshal.AllocHGlobal(1024);
-                                uint lpdwAbsoluteSdSize = 1024, DaclSize = 1024, SaclSize = 1024, OwnerSize = 1024, PrimaryGroupSize = 1024;
-
-                                bool status = NativeMethods.MakeAbsoluteSD(
-                                            pInfoBuffer, 
-                                            pAbsoluteSd, 
-                                            ref lpdwAbsoluteSdSize,
-                                            pDacl,
-                                            ref DaclSize,
-                                            pSacl,
-                                            ref SaclSize,
-                                            pOwner,
-                                            ref OwnerSize,
-                                            pPrimaryGroup,
-                                            ref PrimaryGroupSize);
-
-                                status = NativeMethods.SetSecurityDescriptorDacl(pAbsoluteSd, true, IntPtr.Zero, false);
-
-                                IntPtr modifiedSd = Marshal.AllocHGlobal(1024);
-                                uint tempBufferSize = 1024;
-                                int modifiedSdSize = -1;
-                                status = NativeMethods.MakeSelfRelativeSD(pAbsoluteSd, modifiedSd, ref tempBufferSize);
-                                if (NativeMethods.IsValidSecurityDescriptor(modifiedSd))
-                                {
-                                    modifiedSdSize = NativeMethods.GetSecurityDescriptorLength(modifiedSd);
-                                }
-
-                                if (!status)
-                                {
-                                    int errorCode = Marshal.GetLastWin32Error();
-                                    Console.WriteLine("Could not modify security descriptor\nError code: " + errorCode);
-                                } else
-                                {
-                                    ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, modifiedSd, modifiedSdSize);
-                                }
-
                                 WnfStateNames[i].Add(stateName);
-                            }
+                                if (options.GetFlag("sn"))
+                                {
+                                    bool status = ModifySecurityDescriptor(nameBuilder.ToString(), pInfoBuffer, nInfoLength, Globals.LifetimeKeyNames[i]);
+                                    if (!status)
+                                    {
+                                        Console.WriteLine("Modify SD failed for {0}", GetWnfName(stateName));
+                                    }
+                                }
+                            } 
                             catch { }
                         }
 
@@ -164,7 +158,7 @@ namespace WnfMonitor
                         out pSubscription,
                         stateName,
                         0,
-                        Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback)),
+                        Callback,
                         pContextBuffer,
                         IntPtr.Zero,
                         0,
@@ -173,7 +167,8 @@ namespace WnfMonitor
                     if (ntstatus != Win32Consts.STATUS_SUCCESS)
                     {
                         Console.WriteLine("[!] Unable to subscribe to WNF StateName: {0}\nError Code: {1:X}", GetWnfName(stateName), ntstatus);
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine("[+] Subscribed to WNF StateName: {0}", GetWnfName(stateName));
                     }
@@ -189,7 +184,8 @@ namespace WnfMonitor
             IntPtr pBuffer,
             int nBufferSize)
         {
-            Console.WriteLine("Callback function called by {0}.", GetWnfName(stateName));
+            Console.WriteLine("[+] Callback function called by {0}.", GetWnfName(stateName));
+            Console.WriteLine(HexDump.Dump(pBuffer, (uint)nBufferSize, 2));
             return 1;
         }
 
@@ -210,7 +206,7 @@ namespace WnfMonitor
                 }
                 else
                 {
-                    wnfName = "N/A";
+                    wnfName = string.Format("0x{0}", stateName.ToString("X"));
                 }
             }
 
@@ -252,23 +248,79 @@ namespace WnfMonitor
             return NativeMethods.IsValidSecurityDescriptor(controlSd) && NativeMethods.GetSecurityDescriptorLength(controlSd) == initialSdSize;
         }
 
-        private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, IntPtr pSecurityDescriptor, int sdLength)
+        private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, string registryPath)
         {
+            var stateNameInt = Convert.ToUInt64(stateName, 16); 
+            var wnfName = GetWnfName(stateNameInt);
+            int absoluteSdSize = 1024;
+
+            IntPtr pAbsoluteSd = Marshal.AllocHGlobal(absoluteSdSize);
+            IntPtr pDacl = Marshal.AllocHGlobal(absoluteSdSize);
+            IntPtr pSacl = Marshal.AllocHGlobal(absoluteSdSize);
+            IntPtr pOwner = Marshal.AllocHGlobal(absoluteSdSize);
+            IntPtr pPrimaryGroup = Marshal.AllocHGlobal(absoluteSdSize);
+            uint lpdwAbsoluteSdSize = (uint)absoluteSdSize, DaclSize = (uint)absoluteSdSize, SaclSize = (uint)absoluteSdSize,
+                OwnerSize = (uint)absoluteSdSize, PrimaryGroupSize = (uint)absoluteSdSize;
+
+            bool status = NativeMethods.MakeAbsoluteSD(
+                        pInfoBuffer,
+                        pAbsoluteSd,
+                        ref lpdwAbsoluteSdSize,
+                        pDacl,
+                        ref DaclSize,
+                        pSacl,
+                        ref SaclSize,
+                        pOwner,
+                        ref OwnerSize,
+                        pPrimaryGroup,
+                        ref PrimaryGroupSize);
+
+            IntPtr modifiedSd = Marshal.AllocHGlobal(1024);
+            uint tempBufferSize = 1024;
+            int modifiedSdSize = -1;
+
+            if (status)
+            {
+                status = NativeMethods.SetSecurityDescriptorDacl(pAbsoluteSd, true, IntPtr.Zero, false);
+                status = NativeMethods.MakeSelfRelativeSD(pAbsoluteSd, modifiedSd, ref tempBufferSize);
+                if (NativeMethods.IsValidSecurityDescriptor(modifiedSd))
+                {
+                    modifiedSdSize = NativeMethods.GetSecurityDescriptorLength(modifiedSd);
+                } else
+                {
+                    Console.WriteLine("Could not obtain a valid security descriptor after modification\n");
+                    return false;
+                }
+            } 
+            else
+            {
+                return false;
+            }
+            
             IntPtr phkResult;
-            int status = NativeMethods.RegOpenKeyEx(
+            int ntstatus = NativeMethods.RegOpenKeyEx(
                                     Win32Consts.HKEY_LOCAL_MACHINE,
-                                    "SYSTEM\\CurrentControlSet\\Control\\Notifications",
+                                    registryPath,
                                     0,
                                     Win32Consts.KEY_SET_VALUE,
                                     out phkResult);
 
             int oldSdLength = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
-            IntPtr newInfoBuffer = Marshal.AllocHGlobal(sdLength + nInfoLength - oldSdLength);
-            NativeMethods.CopyMemory(newInfoBuffer, pSecurityDescriptor, (uint) sdLength);
-            NativeMethods.CopyMemory(IntPtr.Add(newInfoBuffer, sdLength), IntPtr.Add(pInfoBuffer, oldSdLength), (uint) (nInfoLength - oldSdLength));
-                 
-            status = NativeMethods.RegSetValueEx(phkResult, stateName, 0, Win32Consts.REG_BINARY, newInfoBuffer, sdLength + nInfoLength - oldSdLength);
-            return status == Win32Consts.STATUS_SUCCESS;
+            IntPtr newInfoBuffer = Marshal.AllocHGlobal(modifiedSdSize + nInfoLength - oldSdLength);
+            NativeMethods.CopyMemory(newInfoBuffer, modifiedSd, (uint)modifiedSdSize);
+            NativeMethods.CopyMemory(IntPtr.Add(newInfoBuffer, modifiedSdSize), IntPtr.Add(pInfoBuffer, oldSdLength), (uint)(nInfoLength - oldSdLength));
+            ntstatus = NativeMethods.RegSetValueEx(phkResult, stateName, 0, Win32Consts.REG_BINARY, newInfoBuffer, modifiedSdSize + nInfoLength - oldSdLength);
+
+            NativeMethods.RegCloseKey(phkResult);
+            Marshal.FreeHGlobal(newInfoBuffer);
+            Marshal.FreeHGlobal(modifiedSd);
+            Marshal.FreeHGlobal(pAbsoluteSd);
+            Marshal.FreeHGlobal(pDacl);
+            Marshal.FreeHGlobal(pSacl);
+            Marshal.FreeHGlobal(pOwner);
+            Marshal.FreeHGlobal(pPrimaryGroup);
+
+            return ntstatus == Win32Consts.STATUS_SUCCESS;
         }
 
     }
