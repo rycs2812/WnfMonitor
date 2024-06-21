@@ -37,6 +37,7 @@ namespace WnfMonitor
             int BufferSize);
 
         private static IntPtr Callback;
+        private static Boolean startedCapture;
         public static string[] LifetimeKeyNames = new string[]
         {
             "SYSTEM\\CurrentControlSet\\Control\\Notifications",
@@ -60,11 +61,12 @@ namespace WnfMonitor
                     options.GetHelp();
                     return;
                 }
-
+                startedCapture = false;
                 Callback = Marshal.GetFunctionPointerForDelegate(new CallbackDelegate(NotifyCallback));
                 GetAllStateNames(options);
                 SubscribeToAllStateNames();
                 Console.WriteLine("\n\n\nBeginning WNF Capture...\n\n\n");
+                startedCapture = true;
                 while (true)
                 {
 
@@ -78,10 +80,10 @@ namespace WnfMonitor
             {
                 options.GetHelp();
                 Console.WriteLine(ex.Message);
-            }
+
         }
 
-        private static void GetAllStateNames(CommandLineParser options)
+        public static void GetAllStateNames(CommandLineParser options)
         {
             for (int i = 0; i < LifetimeKeyNames.Length; ++i)
             {
@@ -184,6 +186,10 @@ namespace WnfMonitor
             IntPtr pBuffer,
             int nBufferSize)
         {
+            if (!startedCapture)
+            {
+                return 0;
+            }
             Console.WriteLine("[+] Callback function called by {0}.", GetWnfName(stateName));
             Console.WriteLine(HexDump.Dump(pBuffer, (uint)nBufferSize, 2));
             return 1;
@@ -249,6 +255,7 @@ namespace WnfMonitor
         }
 
         private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, string registryPath)
+
         {
             var stateNameInt = Convert.ToUInt64(stateName, 16); 
             var wnfName = GetWnfName(stateNameInt);
