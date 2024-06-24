@@ -12,3 +12,10 @@ C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.AssemblyReferen
 C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.exe
 C:\Users\User\Desktop\WnfMonitor\obj\x64\Debug\WnfMonitor.pdb
+C:\Users\ryany\WnfMonitor\bin\x64\Debug\WnfMonitor.exe.config
+C:\Users\ryany\WnfMonitor\bin\x64\Debug\WnfMonitor.exe
+C:\Users\ryany\WnfMonitor\bin\x64\Debug\WnfMonitor.pdb
+C:\Users\ryany\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.AssemblyReference.cache
+C:\Users\ryany\WnfMonitor\obj\x64\Debug\WnfMonitor.csproj.CoreCompileInputs.cache
+C:\Users\ryany\WnfMonitor\obj\x64\Debug\WnfMonitor.exe
+C:\Users\ryany\WnfMonitor\obj\x64\Debug\WnfMonitor.pdb

@@ -80,7 +80,7 @@ namespace WnfMonitor
             {
                 options.GetHelp();
                 Console.WriteLine(ex.Message);
-
+            }
         }
 
         public static void GetAllStateNames(CommandLineParser options)
@@ -217,41 +217,6 @@ namespace WnfMonitor
             }
 
             return wnfName;
-        }
-
-        private static bool sdControlTest(IntPtr pInfoBuffer)
-        {
-            // Running control test:
-            if (NativeMethods.IsValidSecurityDescriptor(pInfoBuffer))
-            {
-                return false;
-            }
-
-            int initialSdSize = NativeMethods.GetSecurityDescriptorLength(pInfoBuffer);
-            IntPtr pControlAbsoluteSd = Marshal.AllocHGlobal(1024);
-            IntPtr p1 = Marshal.AllocHGlobal(1024);
-            IntPtr p2 = Marshal.AllocHGlobal(1024);
-            IntPtr p3 = Marshal.AllocHGlobal(1024);
-            IntPtr p4 = Marshal.AllocHGlobal(1024);
-            uint controlAbsoluteSdSize = 1024, s1 = 1024, s2 = 1024, s3 = 1024, s4 = 1024;
-
-            bool ntstatus = NativeMethods.MakeAbsoluteSD(
-                        pInfoBuffer,
-                        pControlAbsoluteSd,
-                        ref controlAbsoluteSdSize,
-                        p1,
-                        ref s1,
-                        p2,
-                        ref s2,
-                        p3,
-                        ref s3,
-                        p4,
-                        ref s4);
-
-            IntPtr controlSd = Marshal.AllocHGlobal(1024);
-            uint bufferControlSize = 1024;
-            ntstatus = NativeMethods.MakeSelfRelativeSD(pControlAbsoluteSd, controlSd, ref bufferControlSize);
-            return NativeMethods.IsValidSecurityDescriptor(controlSd) && NativeMethods.GetSecurityDescriptorLength(controlSd) == initialSdSize;
         }
 
         private static bool ModifySecurityDescriptor(string stateName, IntPtr pInfoBuffer, int nInfoLength, string registryPath)
